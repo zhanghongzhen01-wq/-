@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eBay广告投放智能分析报告</title>
+<style>
+:root { --primary: #2B579A; --success: #4CAF50; --warning: #FF9800; --danger: #F44336; --bg: #F5F6FA; --card: #FFFFFF; --text: #333333; --muted: #888888; --border: #E0E0E0; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: 'Microsoft YaHei','PingFang SC',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; }
+.container { max-width:1200px; margin:0 auto; padding:20px; }
+.header { background:linear-gradient(135deg, #1a3a6b 0%, #2B579A 100%); color:white; padding:40px 30px; border-radius:12px; margin-bottom:24px; }
+.header h1 { font-size:28px; margin-bottom:8px; }
+.header .meta { opacity:0.8; font-size:14px; }
+.card { background:var(--card); border-radius:12px; padding:24px; margin-bottom:20px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+.card h2 { font-size:20px; color:var(--primary); margin-bottom:16px; padding-bottom:12px; border-bottom:2px solid var(--primary); }
+.card h3 { font-size:16px; color:#555; margin:16px 0 10px; }
+.metrics { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px; }
+.metric { flex:1; min-width:160px; background:#F8F9FC; border-radius:8px; padding:16px; text-align:center; }
+.metric .value { font-size:24px; font-weight:700; color:var(--primary); }
+.metric .label { font-size:12px; color:var(--muted); margin-top:4px; }
+table { width:100%; border-collapse:collapse; margin:12px 0; font-size:13px; }
+th { background:var(--primary); color:white; padding:10px 12px; text-align:center; font-weight:600; white-space:nowrap; }
+td { padding:8px 12px; text-align:center; border-bottom:1px solid var(--border); }
+tr:hover { background:#F0F4FF; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.badge-a { background:#E8F5E9; color:#2E7D32; }
+.badge-b { background:#E3F2FD; color:#1565C0; }
+.badge-c { background:#FFF3E0; color:#E65100; }
+.badge-d { background:#FFEBEE; color:#C62828; }
+.badge-shutdown { background:#FFEBEE; color:#C62828; }
+.badge-expand { background:#E8F5E9; color:#2E7D32; }
+.tips { background:#FFF9C4; border-left:4px solid #FBC02D; padding:16px 20px; border-radius:0 8px 8px 0; margin:16px 0; }
+.tips strong { color:#F57F17; }
+.footer { text-align:center; padding:24px; color:var(--muted); font-size:13px; }
+.grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+@media (max-width:768px) { .grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>📊 eBay广告投放智能分析报告</h1>
+  <div class="meta">生成时间: 2026-07-01 17:34 &nbsp;|&nbsp; 数据来源: 15天销售监测 + CPC广告数据 &nbsp;|&nbsp; 市场: 美国站</div>
+</div>
+
+<div class="card">
+  <h2>一、eBay广告投放方法论</h2>
+  <div class="tips">
+    <strong>💡 核心原则：</strong>PLP(Advanced)按点击收费，适合新品测款、关键词探索，曝光不花钱留着也无妨；PLG(Standard)按成交收费，适合成熟商品收割，不出单不花钱。判断空烧的唯一标准是<strong>花了钱没产出</strong>，不看曝光量。
+  </div>
+
+  <h3>1. 广告类型对比</h3>
+  <table>
+    <tr><th>类型</th><th>付费方式</th><th>何时扣费</th><th>适用阶段</th><th>注意</th></tr>
+    <tr><td><strong>PLG (Standard)</strong></td><td>按成交 CPS</td><td>出单才扣费</td><td>成熟/爆款期</td><td>佣金 12-15%，转化率 > 2% 再上</td></tr>
+    <tr><td><strong>PLP (Advanced)</strong></td><td>按点击 CPC</td><td>点就扣费</td><td>新品/测款期</td><td>曝光不花钱，零点击不算浪费</td></tr>
+  </table>
+
+  <h3>2. 关键词四阶段决策标准</h3>
+  <table>
+    <tr><th>阶段</th><th>条件</th><th>判定</th><th>说明</th></tr>
+    <tr><td>曝光期</td><td>曝光 &lt; 100</td><td><span class="badge badge-b">观察</span></td><td>刚上线或出价太低，等数据积累</td></tr>
+    <tr><td>曝光→点击</td><td>曝光 ≥ 100，点击=0</td><td><span class="badge badge-b">观察</span></td><td>PLP 按点击收费，曝光不花钱，留着无妨</td></tr>
+    <tr><td>点击→转化</td><td>点击 ≥ 15，零转化，花费 ≥ $5</td><td><span class="badge badge-shutdown">空烧</span></td><td>来了十几个人没一个买，钱白花了</td></tr>
+    <tr><td>点击→转化</td><td>点击 &lt; 15，零转化</td><td><span class="badge badge-b">观察</span></td><td>样本不够，继续观察</td></tr>
+    <tr><td>有转化</td><td>ACoS ≤ 15%</td><td><span class="badge badge-expand">追加预算</span></td><td>高效！提高出价 20-30%</td></tr>
+    <tr><td>有转化</td><td>ACoS 15-30%</td><td>保持</td><td>健康区间，维持当前策略</td></tr>
+    <tr><td>有转化</td><td>ACoS 30-60%</td><td><span class="badge badge-c">降价优化</span></td><td>微利，降低出价 15-25%</td></tr>
+    <tr><td>有转化</td><td>ACoS &gt; 100%</td><td><span class="badge badge-shutdown">空烧</span></td><td>越投越亏，暂停或删除</td></tr>
+  </table>
+  <table>
+    <tr><td>1.</td><td>从PLP开始：先用按点击付费测试关键词和商品</td></tr>
+    <tr><td>2.</td><td>小预算起步：每个SKU每天预算$5-$10</td></tr>
+    <tr><td>3.</td><td>密切监控：每天查看广告数据，及时调整</td></tr>
+    <tr><td>4.</td><td>关键词精选：从广泛匹配开始，逐步筛选优质词</td></tr>
+    <tr><td>5.</td><td>耐心测试：广告效果需时间积累，不要急于否定</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>二、SKU投放价值评估 — Top 15</h2>
+  <table>
+    <tr><th>排名</th><th>SKU</th><th>15天销量</th><th>15天销售额</th><th>评分</th><th>优先级</th><th>推荐广告</th><th>预算%</th></tr>
+    <tr><td>1</td><td><strong>90201006</strong></td><td>11</td><td>$829.39</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>2</td><td><strong>90106001</strong></td><td>45</td><td>$1,282.87</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>3</td><td><strong>90101121</strong></td><td>16</td><td>$2,549.28</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>4</td><td><strong>90804001</strong></td><td>12</td><td>$717.26</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>5</td><td><strong>90101001</strong></td><td>20</td><td>$1,841.48</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>6</td><td><strong>90101511</strong></td><td>10</td><td>$2,254.39</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>7</td><td><strong>90106028</strong></td><td>23</td><td>$726.77</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>8</td><td><strong>90101011</strong></td><td>15</td><td>$1,664.85</td><td>80</td><td><span class="badge badge-a">A</span></td><td>PLG+PLP组合，优化转化</td><td>15.0%</td></tr>
+    <tr><td>9</td><td><strong>90106021</strong></td><td>22</td><td>$722.87</td><td>75</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合，优化转化</td><td>10.0%</td></tr>
+    <tr><td>10</td><td><strong>90201095</strong></td><td>10</td><td>$1,070.90</td><td>75</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合，优化转化</td><td>10.0%</td></tr>
+    <tr><td>11</td><td><strong>90201004</strong></td><td>7</td><td>$640.45</td><td>70</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合</td><td>10.0%</td></tr>
+    <tr><td>12</td><td><strong>90101125</strong></td><td>8</td><td>$1,111.92</td><td>70</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合</td><td>10.0%</td></tr>
+    <tr><td>13</td><td><strong>90201121</strong></td><td>7</td><td>$1,058.82</td><td>70</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合</td><td>10.0%</td></tr>
+    <tr><td>14</td><td><strong>90104007</strong></td><td>15</td><td>$238.07</td><td>70</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合，优化转化</td><td>10.0%</td></tr>
+    <tr><td>15</td><td><strong>90101491</strong></td><td>6</td><td>$1,298.40</td><td>70</td><td><span class="badge badge-b">B</span></td><td>PLG+PLP组合</td><td>10.0%</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>三、广告词组优化建议</h2>
+  <h3>3.1 建议空烧关停的广告词组 (8个)</h3>
+  <table>
+    <tr><th>序号</th><th>广告组</th><th>关键词</th><th>类型</th><th>点击</th><th>ACoS</th><th>原因</th></tr>
+    <tr><td>1</td><td>摩配A#后护杠#Softail05-17#手动#关</td><td>harley crash bar</td><td>BROAD</td><td>25</td><td>-</td><td></td></tr>
+    <tr><td>2</td><td>摩配A#手把#护杠#Harley Touring#</td><td>harley road glide</td><td>PHRASE</td><td>21</td><td>-</td><td></td></tr>
+    <tr><td>3</td><td>摩配A#后视镜#手动#6.13#长期未出库(TA线</td><td>mirrors</td><td>PHRASE</td><td>26</td><td>-</td><td></td></tr>
+    <tr><td>4</td><td>摩配A#后视镜#手动#6.13#长期未出库(TA线</td><td>heavy duty motorcycle suzuki</td><td>BROAD</td><td>16</td><td>-</td><td></td></tr>
+    <tr><td>5</td><td>摩配A#手把#预穿线手把#大小词#harley#关</td><td>sportster handlebars</td><td>EXACT</td><td>18</td><td>-</td><td></td></tr>
+    <tr><td>6</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>sportster 48 ape hangers</td><td>BROAD</td><td>46</td><td>-</td><td></td></tr>
+    <tr><td>7</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>ape hangers</td><td>EXACT</td><td>17</td><td>-</td><td></td></tr>
+    <tr><td>8</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>harley mirrors</td><td>BROAD</td><td>0</td><td>319.7%</td><td></td></tr>
+  </table>
+  <h3>3.2 建议追加预算的广告词组 (39个)</h3>
+  <table>
+    <tr><th>序号</th><th>广告组</th><th>关键词</th><th>类型</th><th>点击</th><th>ACoS</th><th>ROAS</th><th>建议</th></tr>
+    <tr><td>1</td><td>摩配A#手把#大小词#手动广告#1寸(TA线-21</td><td>sportster 48 ape hangers</td><td>BROAD</td><td>153</td><td>8.3%</td><td>12.0</td><td></td></tr>
+    <tr><td>2</td><td>摩配A#手把#大小词#手动广告#1寸(TA线-21</td><td>12 inch ape hangers</td><td>EXACT</td><td>17</td><td>14.5%</td><td>6.9</td><td></td></tr>
+    <tr><td>3</td><td>摩配A#手把#大小词#手动广告#1寸(TA线-21</td><td>dyna handlebars</td><td>BROAD</td><td>168</td><td>12.2%</td><td>8.2</td><td></td></tr>
+    <tr><td>4</td><td>摩配A#手把#大小词#手动广告#1寸(TA线-21</td><td>dyna handlebars</td><td>PHRASE</td><td>15</td><td>10.1%</td><td>9.9</td><td></td></tr>
+    <tr><td>5</td><td>摩配A#后护杠#Softail05-17#手动#关</td><td>harley saddlebag guard</td><td>BROAD</td><td>27</td><td>4.0%</td><td>24.7</td><td></td></tr>
+    <tr><td>6</td><td>摩配A#手把#护杠#Harley Touring#</td><td>road king</td><td>PHRASE</td><td>53</td><td>13.1%</td><td>7.6</td><td></td></tr>
+    <tr><td>7</td><td>摩配A#手把#护杠#Harley Touring#</td><td>road glide</td><td>PHRASE</td><td>123</td><td>4.6%</td><td>21.7</td><td></td></tr>
+    <tr><td>8</td><td>摩配A#后护杠#Softail#手动(TA线-CN</td><td>harley davidson</td><td>PHRASE</td><td>10</td><td>3.1%</td><td>32.5</td><td></td></tr>
+    <tr><td>9</td><td>摩配A#后护杠#Softail#手动(TA线-CN</td><td>crash bars</td><td>PHRASE</td><td>24</td><td>4.0%</td><td>25.0</td><td></td></tr>
+    <tr><td>10</td><td>摩配A#后护杠#Softail#手动(TA线-CN</td><td>harley davidson saddle bag gua</td><td>BROAD</td><td>129</td><td>9.8%</td><td>10.2</td><td></td></tr>
+    <tr><td>11</td><td>摩配A#护杠#大小词#手动广告#Sportster</td><td>iron 883 crash bar</td><td>PHRASE</td><td>13</td><td>3.2%</td><td>31.3</td><td></td></tr>
+    <tr><td>12</td><td>摩配A#护杠#大小词#手动广告#Sportster</td><td>sportster crash bar</td><td>PHRASE</td><td>64</td><td>4.1%</td><td>24.3</td><td></td></tr>
+    <tr><td>13</td><td>摩配A#置物架#大小词#90804001#手动(T</td><td>harley davidson tour pack wall</td><td>EXACT</td><td>40</td><td>7.7%</td><td>13.0</td><td></td></tr>
+    <tr><td>14</td><td>摩配A#后视镜#手动#6.13#长期未出库(TA线</td><td>suzuki dr mirrors</td><td>BROAD</td><td>2</td><td>1.2%</td><td>83.9</td><td></td></tr>
+    <tr><td>15</td><td>摩配A#前后护杠#09-25Touring#手动(</td><td>harley crash bar</td><td>EXACT</td><td>10</td><td>3.2%</td><td>31.0</td><td></td></tr>
+    <tr><td>16</td><td>摩配A#前护杠#90201091#手动#宽泛(TA</td><td>indian crash bar</td><td>BROAD</td><td>21</td><td>4.9%</td><td>20.3</td><td></td></tr>
+    <tr><td>17</td><td>摩配A#脚踏组合#手动#2000-2017 Sof</td><td>harley davidson foot boards</td><td>BROAD</td><td>4</td><td>0.5%</td><td>209.1</td><td></td></tr>
+    <tr><td>18</td><td>摩配A#手把#预穿线手把#大小词#harley#关</td><td>harley davidson road king hand</td><td>BROAD</td><td>197</td><td>6.0%</td><td>16.6</td><td></td></tr>
+    <tr><td>19</td><td>摩配A#手把#预穿线手把#大小词#harley#关</td><td>sportster handlebars</td><td>PHRASE</td><td>14</td><td>3.8%</td><td>26.1</td><td></td></tr>
+    <tr><td>20</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>softail ape hanger</td><td>PHRASE</td><td>14</td><td>6.7%</td><td>15.0</td><td></td></tr>
+    <tr><td>21</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>softail ape hanger</td><td>BROAD</td><td>27</td><td>13.7%</td><td>7.3</td><td></td></tr>
+    <tr><td>22</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>road king ape hangers</td><td>PHRASE</td><td>63</td><td>8.3%</td><td>12.1</td><td></td></tr>
+    <tr><td>23</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>gangster ape</td><td>PHRASE</td><td>7</td><td>2.1%</td><td>47.7</td><td></td></tr>
+    <tr><td>24</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>electra glide bar</td><td>PHRASE</td><td>20</td><td>11.6%</td><td>8.6</td><td></td></tr>
+    <tr><td>25</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>electra glide bars</td><td>PHRASE</td><td>29</td><td>6.2%</td><td>16.2</td><td></td></tr>
+    <tr><td>26</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>meathook handlebars</td><td>EXACT</td><td>19</td><td>4.3%</td><td>23.3</td><td></td></tr>
+    <tr><td>27</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>street glide meathook handleba</td><td>BROAD</td><td>270</td><td>10.6%</td><td>9.4</td><td></td></tr>
+    <tr><td>28</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>meathook handlebars</td><td>BROAD</td><td>98</td><td>9.7%</td><td>10.3</td><td></td></tr>
+    <tr><td>29</td><td>摩配A#手把#大小词#手动广告#Meathook </td><td>street glide 12" handlebars</td><td>PHRASE</td><td>13</td><td>4.3%</td><td>23.2</td><td></td></tr>
+    <tr><td>30</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>street glide chrome mirrors</td><td>BROAD</td><td>180</td><td>11.7%</td><td>8.6</td><td></td></tr>
+    <tr><td>31</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>road king mirrors</td><td>BROAD</td><td>25</td><td>12.7%</td><td>7.9</td><td></td></tr>
+    <tr><td>32</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>heritage softail mirrors</td><td>BROAD</td><td>101</td><td>13.1%</td><td>7.7</td><td></td></tr>
+    <tr><td>33</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>dyna mirrors</td><td>PHRASE</td><td>28</td><td>14.9%</td><td>6.7</td><td></td></tr>
+    <tr><td>34</td><td>摩配A#手把#大小词#手动广告#T Bar(TA线</td><td>dyna t bars</td><td>BROAD</td><td>1000</td><td>9.4%</td><td>10.7</td><td></td></tr>
+    <tr><td>35</td><td>摩配A#手把#大小词#手动广告#T Bar(TA线</td><td>16" t bars</td><td>BROAD</td><td>393</td><td>14.4%</td><td>6.9</td><td></td></tr>
+    <tr><td>36</td><td>摩配A#三星及配件#大小词#90104005#67</td><td>harley handlebar bushings</td><td>PHRASE</td><td>51</td><td>8.4%</td><td>11.9</td><td></td></tr>
+    <tr><td>37</td><td>摩配A#三星及配件#大小词#90104005#67</td><td>riser bushings</td><td>PHRASE</td><td>559</td><td>13.1%</td><td>7.6</td><td></td></tr>
+    <tr><td>38</td><td>摩配A#三星及配件#大小词#90104005#67</td><td>dyna handlebar risers</td><td>PHRASE</td><td>1</td><td>2.8%</td><td>35.5</td><td></td></tr>
+    <tr><td>39</td><td>摩配A#三星及配件#大小词#90104005#67</td><td>harley risers</td><td>PHRASE</td><td>10</td><td>12.3%</td><td>8.2</td><td></td></tr>
+  </table>
+  <h3>3.3 建议降价的广告词组 (11个)</h3>
+  <table>
+    <tr><th>序号</th><th>广告组</th><th>关键词</th><th>类型</th><th>点击</th><th>转化</th><th>ACoS</th><th>建议</th></tr>
+    <tr><td>1</td><td>摩配A#后护杠#Softail#手动(TA线-CN</td><td>saddle bags</td><td>PHRASE</td><td>190</td><td>1</td><td>57.3%</td><td></td></tr>
+    <tr><td>2</td><td>摩配A#后护杠#Softail#手动(TA线-CN</td><td>chrome rear softail deluxe</td><td>BROAD</td><td>85</td><td>1</td><td>33.1%</td><td></td></tr>
+    <tr><td>3</td><td>摩配A#置物架#大小词#90804001#手动(T</td><td>road glide tour pack</td><td>PHRASE</td><td>50</td><td>1</td><td>34.8%</td><td></td></tr>
+    <tr><td>4</td><td>摩配A#置物架#大小词#90804001#手动(T</td><td>street glide backrest</td><td>BROAD</td><td>112</td><td>1</td><td>74.6%</td><td></td></tr>
+    <tr><td>5</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>gangster ape bar</td><td>BROAD</td><td>63</td><td>1</td><td>37.9%</td><td></td></tr>
+    <tr><td>6</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>gangster handlebar</td><td>BROAD</td><td>211</td><td>1</td><td>92.9%</td><td></td></tr>
+    <tr><td>7</td><td>摩配A#手把#大小词#手动广告#Gangster </td><td>chrome ape hanger handlebars</td><td>BROAD</td><td>74</td><td>1</td><td>31.9%</td><td></td></tr>
+    <tr><td>8</td><td>摩配A#后视镜#大小词#90106001#手动广告</td><td>mirror harley davidson</td><td>EXACT</td><td>31</td><td>3</td><td>43.6%</td><td></td></tr>
+    <tr><td>9</td><td>摩配A#手把#大小词#手动广告#T Bar(TA线</td><td>harley t bars</td><td>PHRASE</td><td>82</td><td>1</td><td>34.7%</td><td></td></tr>
+    <tr><td>10</td><td>摩配A#手把#大小词#手动广告#T Bar(TA线</td><td>softail mx t bars</td><td>BROAD</td><td>112</td><td>2</td><td>30.1%</td><td></td></tr>
+    <tr><td>11</td><td>摩配A#手把#大小词#手动广告#T Bar(TA线</td><td>sportster  t bars</td><td>BROAD</td><td>220</td><td>3</td><td>48.4%</td><td></td></tr>
+  </table>
+  <h3>3.4 建议新增的广告词组 (15个)</h3>
+  <table>
+    <tr><th>序号</th><th>原始关键词</th><th>建议关键词</th><th>原因</th></tr>
+    <tr><td>1</td><td>sportster 48 ape hangers</td><td><strong>手把 sportster 48 ape hangers</strong></td><td>添加产品属性「手把」提高精准度</td></tr>
+    <tr><td>2</td><td>sportster 48 ape hangers</td><td><strong>1寸(TA线-21ST) sportster 48 ape hange</strong></td><td>添加产品属性「1寸(TA线-21ST)」提高精准度</td></tr>
+    <tr><td>3</td><td>sportster 48 ape hangers</td><td><strong>[sportster 48 ape hangers]</strong></td><td>切换为精确匹配减少无效曝光</td></tr>
+    <tr><td>4</td><td>12 inch ape hangers</td><td><strong>手把 12 inch ape hangers</strong></td><td>添加产品属性「手把」提高精准度</td></tr>
+    <tr><td>5</td><td>12 inch ape hangers</td><td><strong>1寸(TA线-21ST) 12 inch ape hangers</strong></td><td>添加产品属性「1寸(TA线-21ST)」提高精准度</td></tr>
+    <tr><td>6</td><td>12 inch ape hangers</td><td><strong>[12 inch ape hangers]</strong></td><td>切换为精确匹配减少无效曝光</td></tr>
+    <tr><td>7</td><td>dyna handlebars</td><td><strong>手把 dyna handlebars</strong></td><td>添加产品属性「手把」提高精准度</td></tr>
+    <tr><td>8</td><td>dyna handlebars</td><td><strong>1寸(TA线-21ST) dyna handlebars</strong></td><td>添加产品属性「1寸(TA线-21ST)」提高精准度</td></tr>
+    <tr><td>9</td><td>dyna handlebars</td><td><strong>[dyna handlebars]</strong></td><td>切换为精确匹配减少无效曝光</td></tr>
+    <tr><td>10</td><td>harley saddlebag guard</td><td><strong>后护杠 harley saddlebag guard</strong></td><td>添加产品属性「后护杠」提高精准度</td></tr>
+    <tr><td>11</td><td>harley saddlebag guard</td><td><strong>Softail05-17 harley saddlebag guard</strong></td><td>添加产品属性「Softail05-17」提高精准度</td></tr>
+    <tr><td>12</td><td>harley saddlebag guard</td><td><strong>关掉P harley saddlebag guard</strong></td><td>添加产品属性「关掉P」提高精准度</td></tr>
+    <tr><td>13</td><td>harley saddlebag guard</td><td><strong>[harley saddlebag guard]</strong></td><td>切换为精确匹配减少无效曝光</td></tr>
+    <tr><td>14</td><td>road king</td><td><strong>手把 road king</strong></td><td>添加产品属性「手把」提高精准度</td></tr>
+    <tr><td>15</td><td>road king</td><td><strong>护杠 road king</strong></td><td>添加产品属性「护杠」提高精准度</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>四、SKU投放潜力预判</h2>
+  <h3>4.1 高潜力SKU Top 15</h3>
+  <table>
+    <tr><th>排名</th><th>SKU</th><th>15天销量</th><th>环比</th><th>潜力评分</th><th>等级</th><th>分析</th></tr>
+    <tr><td>1</td><td><strong>90201045</strong></td><td>4</td><td>--</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>2</td><td><strong>90109217</strong></td><td>4</td><td>0.33</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>3</td><td><strong>90101064</strong></td><td>5</td><td>0.25</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>4</td><td><strong>90110043</strong></td><td>4</td><td>--</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>5</td><td><strong>90106033</strong></td><td>4</td><td>0</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>6</td><td><strong>90201013+90202005</strong></td><td>5</td><td>4</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>7</td><td><strong>90110182</strong></td><td>5</td><td>4</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>8</td><td><strong>90201076</strong></td><td>4</td><td>0</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>9</td><td><strong>90109259</strong></td><td>4</td><td>0.33</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>10</td><td><strong>90101293</strong></td><td>5</td><td>4</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>11</td><td><strong>90106016</strong></td><td>4</td><td>-0.2</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>12</td><td><strong>90112064</strong></td><td>5</td><td>0.25</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>13</td><td><strong>90101502</strong></td><td>4</td><td>3</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>14</td><td><strong>90112062</strong></td><td>4</td><td>--</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+    <tr><td>15</td><td><strong>90101061</strong></td><td>4</td><td>-0.2</td><td>50</td><td><span class="badge badge-c">中潜力</span></td><td style="text-align:left">单价较高，利润空间大</td></tr>
+</div>
+
+<div class="card">
+  <h2>五、总结与建议</h2>
+  <div class="grid">
+    <div>
+      <h3>▶ 立即执行</h3>
+      <p>关停零转化的广告词组，对高优先级SKU增加广告预算</p>
+    </div>
+    <div>
+      <h3>▶ 本周执行</h3>
+      <p>测试新推荐的广告词组，关注新品机会的投放效果</p>
+    </div>
+    <div>
+      <h3>▶ 持续优化</h3>
+      <p>每日查看广告数据，根据ACoS调整出价策略</p>
+    </div>
+    <div>
+      <h3>⚠️ 常见误区</h3>
+      <p>不给所有商品都投广告；不忽略ACoS超50%；数据至少观察7天</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  eBay广告投放智能分析系统 &copy; 2026 | 报告自动生成
+</div>
+
+</div>
+</body>
+</html>

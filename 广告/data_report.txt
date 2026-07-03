@@ -1,0 +1,97 @@
+=== 销售数据 ===
+行数: 758, 列数: 46
+列名: ['SKU', '首SKU', '一级目录', '二级目录', '三级目录', '15天销量', '销量环比', '15天销售额', '销售额环比', '30天销量', '30天销售额', '15总广告费', '15广告订单(光环）', '15广告销售额（光环）', '15广告销量(去重）', '15广告销售额(去重）', '15广告曝光', '15广告点击', '15PLG费用', '15PLG曝光', '15PLG点击', '15PLG销售额（光环）', '15PLG订单(光环）', '15PLG销售额（去重）', '15PLG订单（去重）', '15PLP销售额', '15PLP订单', '15PLP费用', '15PLP曝光', '15PLP点击', '15PO销售额', '15PO订单', '15PO曝光', '15PO点击', '15PO费用', '适配品牌', '适配车型', '适配车型品牌+车型', '清0 时间', '日期（当期截止时间）', 'HK销售额-15d', 'HK销量-15d', 'HK总广告费-15d', '辅助类目', '对应销售', '查找引用']
+
+前5行:
+        SKU      首SKU 一级目录    二级目录   三级目录  15天销量  销量环比  15天销售额 销售额环比  30天销量  30天销售额  15总广告费  15广告订单(光环）  15广告销售额（光环）  15广告销量(去重）  15广告销售额(去重）  15广告曝光  15广告点击  15PLG费用  15PLG曝光  15PLG点击  15PLG销售额（光环）  15PLG订单(光环）  15PLG销售额（去重）  15PLG订单（去重）  15PLP销售额  15PLP订单  15PLP费用  15PLP曝光  15PLP点击  15PO销售额  15PO订单  15PO曝光  15PO点击  15PO费用    适配品牌     适配车型       适配车型品牌+车型       清0 时间 日期（当期截止时间）  HK销售额-15d  HK销量-15d  HK总广告费-15d     辅助类目  对应销售 查找引用
+0  90103413  90103413   摩配  车把控制系统   手把压块      3   50%  259.85   62%      5  420.03   10.79           2       192.31           2       192.31   17684      35    10.58    17519       31        192.31            2        192.31            2      0.00        0     0.00        0        0     0.00       0     165       4    0.21  Harley      NaN         Harley          NaN 2026-06-21      81.87         1        0.12   摩配手把压块  摩配A组  张鸿臻
+1  90101013  90101013   摩配  车把控制系统     手把      3   50%  324.42   48%      5  543.85   16.75           1       104.99           1       104.99   19396     128     5.25    15863       10        104.99            1        104.99            1      0.00        0     0.00        0        0     0.00       0    3533     118   11.50  Harley  Touring  Harley Touring  2026/04/06 2026-06-21       0.00         0        0.22     摩配手把  摩配A组  张鸿臻
+2  90108001  90108001   摩配  车把控制系统   复古减震     13  225%  361.18  242%     17  466.93   23.66          12       366.08          10       303.93   28997     100    22.13    28715       92        303.93           10        241.78            8      0.00        0     0.00        0        0    62.15       2     282       8    1.53  Harley      NaN         Harley          NaN 2026-06-21       0.00         0        0.00   摩配复古减震  摩配A组  张鸿臻
+3  90104007  90104007   摩配  车把控制系统  三星及配件     15  -17%  238.07  -10%     33  503.36   23.20          17       285.74          13       223.65   16961      42    12.48     9757        7        223.65           13        161.56            9     62.09        4     6.98     6639       24     0.00       0     565      11    3.74  Harley      NaN         Harley          NaN 2026-06-21       0.00         0        0.50  摩配三星及配件  摩配A组  张鸿臻
+4  90201045  90201045   摩配    车身结构    前护杠      4    --  429.41    --      4  429.41   16.61           2       238.20           2       238.20    8021      34    14.83     7406       24        238.20            2        238.20            2      0.00        0     0.00        0        0     0.00       0     615      10    1.78  Harley  Softail  Harley Softail  2026/04/28 2026-06-21       0.00         0        0.00    摩配前护杠  摩配A组  张鸿臻
+
+数据类型:
+SKU                        str
+首SKU                     int64
+一级目录                       str
+二级目录                       str
+三级目录                       str
+15天销量                    int64
+销量环比                       str
+15天销售额                 float64
+销售额环比                      str
+30天销量                    int64
+30天销售额                 float64
+15总广告费                 float64
+15广告订单(光环）               int64
+15广告销售额（光环）            float64
+15广告销量(去重）               int64
+15广告销售额(去重）            float64
+15广告曝光                   int64
+15广告点击                   int64
+15PLG费用                float64
+15PLG曝光                  int64
+15PLG点击                  int64
+15PLG销售额（光环）           float64
+15PLG订单(光环）              int64
+15PLG销售额（去重）           float64
+15PLG订单（去重）              int64
+15PLP销售额               float64
+15PLP订单                  int64
+15PLP费用                float64
+15PLP曝光                  int64
+15PLP点击                  int64
+15PO销售额                float64
+15PO订单                   int64
+15PO曝光                   int64
+15PO点击                   int64
+15PO费用                 float64
+适配品牌                       str
+适配车型                       str
+适配车型品牌+车型                  str
+清0 时间                      str
+日期（当期截止时间）      datetime64[us]
+HK销售额-15d              float64
+HK销量-15d                 int64
+HK总广告费-15d             float64
+辅助类目                       str
+对应销售                       str
+查找引用                       str
+
+
+=== 广告数据 ===
+行数: 192, 列数: 23
+列名: ['Campaign', 'eBay account', 'Site', 'Start time', 'End time', 'Listing', 'Ad group', 'Keyword', 'Status', 'Daily budget', 'Impressions', 'Clicks', 'Click through rate', 'Sales', 'Conversion rate', 'Sale amount', 'Ad Fees', 'ROAS', 'ACOS', 'ROI', 'Avg cost per sale', 'Cost per click', 'Unnamed: 22']
+
+前5行:
+                               Campaign eBay account         Site           Start time             End time             Listing Ad group          Keyword       Status Daily budget Impressions Clicks Click through rate              Sales Conversion rate Sale amount   Ad Fees ROAS ACOS  ROI Avg cost per sale Cost per click Unnamed: 22
+0  摩配A#手把#kawasaki 90101391 90101392#手动     TA线-21ST           US  2026-02-11 08:39:36  1900-01-01 12:00:00                   3        1              172      RUNNING     4.00 USD         171      4              2.34%                  0               0           0  1.21 USD    0    0    0                 0       0.30 USD         NaN
+1                                   NaN          NaN          NaN                  NaN                  NaN                 NaN      NaN              NaN          NaN          NaN         NaN    NaN                NaN                NaN             NaN         NaN       NaN  NaN  NaN  NaN               NaN            NaN         NaN
+2                         Ad group name       Status  Default bid          Impressions               Clicks  Click through rate    Sales  Conversion rate  Sale amount      Ad Fees        ROAS   ACOS                ROI  Avg cost per sale  Cost per click         NaN       NaN  NaN  NaN  NaN               NaN            NaN         NaN
+3   Handlebars (ape, handlebar, hanger)       PAUSED     0.02 USD                  171                    4               2.34%        0                0            0     1.21 USD           0      0                  0                  0        0.30 USD         NaN       NaN  NaN  NaN  NaN               NaN            NaN         NaN
+4                                   NaN          NaN          NaN                  NaN                  NaN                 NaN      NaN              NaN          NaN          NaN         NaN    NaN                NaN                NaN             NaN         NaN       NaN  NaN  NaN  NaN               NaN            NaN         NaN
+
+数据类型:
+Campaign                 str
+eBay account             str
+Site                     str
+Start time            object
+End time              object
+Listing               object
+Ad group              object
+Keyword               object
+Status                object
+Daily budget             str
+Impressions           object
+Clicks                object
+Click through rate    object
+Sales                 object
+Conversion rate       object
+Sale amount              str
+Ad Fees                  str
+ROAS                     str
+ACOS                     str
+ROI                      str
+Avg cost per sale        str
+Cost per click           str
+Unnamed: 22              str
